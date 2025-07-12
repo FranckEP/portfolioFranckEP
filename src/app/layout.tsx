@@ -7,6 +7,9 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata = {
   title: 'Franck Echeverría Peñaloza | Data & BI Portfolio',
   description: 'Data Analyst, BI Analyst, and Data Engineer Portfolio showcasing analytics, dashboards, and data engineering projects.',
+  icons: {
+    icon: '/icon.png',
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
