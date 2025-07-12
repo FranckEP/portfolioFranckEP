@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Franck Echeverría – Data & BI Portfolio
 
-## Getting Started
+This is my personal portfolio showcasing selected projects in data analysis, business intelligence, and data engineering. Built using modern web technologies, it highlights my skills, tools, and real-world projects.
 
-First, run the development server:
+🔗 Live Site: [franckecheverria.vercel.app](https://franckecheverria.vercel.app)  
+📄 Resume: Available for download on the site  
+📬 Contact: [franck200402@gmail.com](mailto:franck200402@gmail.com)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🎯 Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- ✅ Hero section with introduction and CTA
+- ✅ About Me section with professional background
+- ✅ Skills grouped by category (Python, SQL, BI Tools, Cloud, etc.)
+- ✅ Portfolio with category filters (Data Analysis, Dashboards, Data Engineering)
+- ✅ Resume download (PDF)
+- ✅ GitHub, LinkedIn & Email links
+- ✅ Dark mode toggle
+- ✅ Smooth animations (Framer Motion)
+- ✅ Responsive layout (mobile, tablet, desktop)
+- ✅ SEO-optimized (metadata + Schema.org)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🧰 Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- [Next.js (App Router)](https://nextjs.org/)
+- [React](https://reactjs.org/) + [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Framer Motion](https://www.framer.com/motion/)
+- [React Icons](https://react-icons.github.io/react-icons/)
+- [Vercel](https://vercel.com/) for deployment
 
-## Learn More
+## 🚀 Deployment
 
-To learn more about Next.js, take a look at the following resources:
+This portfolio is deployed with Vercel. Every push to the main branch triggers an automatic build and deploy.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🙌 Acknowledgements
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Inspired by clean design principles and developer portfolios from the Next.js community. Built with 💻 and ☕ by Franck Echeverría.
