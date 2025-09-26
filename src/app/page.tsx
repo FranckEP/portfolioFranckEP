@@ -16,7 +16,7 @@ export default function Home() {
         transition={{ duration: 0.8 }}
       >
         <Image
-          src="/profile.jpeg"
+          src="/profile.jpg"
           alt="Franck Echeverría Peñaloza"
           width={120}
           height={120}
