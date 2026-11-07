@@ -1,116 +1,106 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
-import ProjectCard from "./ProjectCard";
+import { categories, moreWork, projects, type Category, type Project } from "../data/content";
+import { ApiFigure, BanksFigure, RedditFigure, RetailFigure } from "./Figures";
 
-const projectsData = [
- /* {
-    id: 1,
-    title: "Telco Operational Monitoring",
-    category: "Data Engineering",
-    description:
-      "Simulated performance analysis in a telecom environment with Python, SQL, and Looker Studio to detect anomalies and improve response times.",
-    repo: "https://github.com/FranckEP/Telco-Operational-Monitoring",
-  },
-  {
-    id: 2,
-    title: "Retail Sales Dashboard",
-    category: "Dashboards",
-    description:
-      "Power BI dashboard analyzing Superstore sales to identify trends, top products, and regional performance for strategic decisions.",
-    repo: "https://github.com/FranckEP/Retail-Sales-Dashboard",
-  },
-  {
-    id: 3,
-    title: "Customer Churn Prediction",
-    category: "Data Analysis",
-    description:
-      "Logistic regression model predicting customer churn for telco data with scikit-learn and business recommendations.",
-    repo: "https://github.com/FranckEP/Customer-Churn-Prediction",
-  },*/
-  {
-    id: 4,
-    title: "Data Source API Analyst",
-    category: ["Data Analysis", "Data Engineering"],
-    description:
-      "Built a reusable Python module to extract and analyze data from the GitHub API, including authentication, repository searches, commit extraction, and data structuring for analysis.",
-    repo: "https://github.com/FranckEP/Data-Source-API-Analyst",
-  },
-  {
-    id: 5,
-    title: "Banks Market Capitalization ETL",
-    category: "Data Engineering",
-    description:
-      "Developed an ETL pipeline using Python to extract, transform, and load banks market capitalization data, demonstrating data engineering and financial data automation skills.",
-    repo: "https://github.com/FranckEP/Banks-Market-Capitalization-ETL-Project",
-  },
-  {
-    id: 6,
-    title: "Data Cleaning & EDA – Retail Sales",
-    category: "Data Analysis",
-    description:
-      "Performed data cleaning and exploratory data analysis (EDA) on online retail sales using Python. Identified null values, duplicate records, and generated visual insights for decision support.",
-    repo: "https://github.com/FranckEP/Data-Cleaning-EDA-Online-Retail-Sales-Data",
-  },
-  {
-    id: 7,
-    title: "Reddit Trend Tracker – ETL to BigQuery & Looker",
-    category: ["Data Engineering", "Dashboards"],
-    description:
-      "End-to-end ETL pipeline that extracts Reddit trends using Python, loads structured data into Google BigQuery, and visualizes insights in Looker Studio. Includes deduplication logic and automation.",
-    repo: "https://github.com/FranckEP/Reddit-Trend-Tracker-ETL-Pipeline-to-Google-BigQuery-and-Looker-Studio",
-  },
-];
-
-const categories = ["All", "Data Analysis", "Dashboards", "Data Engineering"];
+const FIGURES: Record<Project["figure"], () => React.ReactElement> = {
+  reddit: RedditFigure,
+  banks: BanksFigure,
+  retail: RetailFigure,
+  api: ApiFigure,
+};
 
 export default function Projects() {
-  const [selectedCategory, setSelectedCategory] = useState("All");
-
-  const filteredProjects =
-    selectedCategory === "All"
-      ? projectsData
-      : projectsData.filter((project) =>
-          Array.isArray(project.category)
-            ? project.category.includes(selectedCategory)
-            : project.category === selectedCategory
-        );
+  const [filter, setFilter] = useState<Category | null>(null);
+  const shown = projects.filter((p) => !filter || p.categories.includes(filter));
+  const more = moreWork.filter((m) => !filter || m.categories.includes(filter));
 
   return (
-    <section id="projects" className="max-w-5xl mx-auto px-4 py-20">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-      >
-        <h2 className="text-3xl font-bold mb-10 text-center">Projects</h2>
-
-        {/* Filters */}
-        <div className="flex justify-center gap-4 mb-10 flex-wrap">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-2 rounded-full border ${
-                selectedCategory === cat
-                  ? "bg-sky-500 text-white border-sky-500"
-                  : "text-sky-500 border-sky-500 hover:bg-sky-50 dark:hover:bg-slate-800"
-              } transition`}
-            >
-              {cat}
+    <section id="work" aria-labelledby="work-title" className="frame pt-[var(--section)]">
+      <div className="grid grid-cols-1 items-end gap-x-10 gap-y-8 lg:grid-cols-12" data-stagger>
+        <h2 id="work-title" className="title reveal lg:col-span-7">
+          Selected data work
+        </h2>
+        <div className="reveal lg:col-span-5">
+          <p>Four data projects in depth, then everything else I’ve shipped. Filter by the kind of work.</p>
+          <div role="group" aria-label="Filter projects" className="mt-5 flex flex-wrap gap-2">
+            <button type="button" className="chip" aria-pressed={filter === null} onClick={() => setFilter(null)}>
+              All
             </button>
-          ))}
+            {categories.map((c) => (
+              <button key={c} type="button" className="chip" aria-pressed={filter === c} onClick={() => setFilter(c)}>
+                {c}
+              </button>
+            ))}
+          </div>
         </div>
+      </div>
 
-        {/* Project Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {filteredProjects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
+      <div className="mt-20 space-y-24 lg:mt-28 lg:space-y-36">
+        {shown.map((p, i) => {
+          const Figure = FIGURES[p.figure];
+          const flip = i % 2 === 1;
+          return (
+            <article
+              key={p.id}
+              aria-labelledby={`p-${p.id}`}
+              className="grid grid-cols-1 items-start gap-x-10 gap-y-8 lg:grid-cols-12"
+              data-stagger
+            >
+              <div className={`lg:col-span-5 ${flip ? "lg:order-2 lg:col-start-8" : ""}`}>
+                <p className="reveal note text-ink-soft">{p.categories.join(" · ")}</p>
+                <h3 id={`p-${p.id}`} className="reveal sub mt-3 !text-[clamp(1.9rem,3.2vw,3rem)] !leading-[1.02]">
+                  {p.title}
+                </h3>
+                <p className="reveal mt-5">{p.summary}</p>
+                <p className="reveal note mt-5 text-ink-soft">{p.stack.join(" · ")}</p>
+                <p className="reveal mt-7 flex flex-wrap gap-x-7 gap-y-3">
+                  {p.live && (
+                    <a href={p.live.href} target="_blank" rel="noopener noreferrer" className="btn">
+                      {p.live.label} <span className="arrow" aria-hidden>↗</span>
+                    </a>
+                  )}
+                  <a href={p.repo} target="_blank" rel="noopener noreferrer" className={p.live ? "link self-center" : "link"}>
+                    Read the code on GitHub
+                  </a>
+                </p>
+              </div>
+              <div className={`reveal lg:col-span-7 ${flip ? "lg:order-1 lg:col-start-1" : ""}`}>
+                <Figure />
+              </div>
+            </article>
+          );
+        })}
+      </div>
+
+      {more.length > 0 && (
+        <div className="mt-28 grid grid-cols-1 gap-x-10 gap-y-8 lg:mt-36 lg:grid-cols-12" data-stagger>
+          <h3 className="reveal sub self-start lg:col-span-4">More on GitHub</h3>
+          <ul className="lg:col-span-8">
+            {more.map((m) => (
+              <li key={m.name} className="reveal">
+                <a
+                  href={m.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group grid grid-cols-1 gap-x-8 gap-y-1 py-5 transition-colors hover:bg-ground-2 sm:grid-cols-[1fr_auto] sm:px-4"
+                >
+                  <span>
+                    <span className="text-xl font-bold tracking-tight group-hover:text-accent">{m.name}</span>
+                    <span className="mt-1 block text-ink-soft">{m.line}</span>
+                  </span>
+                  <span className="note self-center text-ink-soft sm:text-right">{m.stack}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
-      </motion.div>
+      )}
+
+      {shown.length === 0 && more.length === 0 && (
+        <p className="mt-16">Nothing in that category yet.</p>
+      )}
     </section>
   );
 }

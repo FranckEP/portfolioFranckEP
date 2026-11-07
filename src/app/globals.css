@@ -1,5 +1,200 @@
 @import "tailwindcss";
 
+/* ---------- Tokens ----------
+   Ground: the cool grey of the portrait backdrop.
+   Ink / field: the navy of the shirt.
+   Accent: the red of Barranquilla's flag. */
+@theme {
+  --color-ground: #edefee;
+  --color-ground-2: #e0e4e3;
+  --color-ink: #0c1a2b;
+  --color-ink-soft: #46525f;
+  --color-accent: #d63a24;
+  --color-accent-ink: #b32a17;
+  --color-field: #0c1a2b;
+  --color-on-field: #edefee;
+  --color-on-field-soft: #aab5c1;
+  --color-field-2: #16273c;
+
+  --font-sans: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+
+  --text-display: clamp(3.4rem, 9.2vw, 9.6rem);
+  --text-title: clamp(2.5rem, 5.6vw, 5.6rem);
+  --text-sub: clamp(1.5rem, 2.4vw, 2.25rem);
+  --text-body: 1.125rem;
+  --text-note: 0.9375rem;
+}
+
+:root {
+  --gutter: clamp(16px, 2.6vw, 40px);
+  --section: clamp(112px, 14vw, 208px);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-ground);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: 1.55;
+  font-feature-settings: "ss01";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.frame {
+  padding-inline: var(--gutter);
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+.display {
+  font-size: var(--text-display);
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+  font-weight: 700;
+  font-variation-settings: "opsz" 96;
+}
+
+.title {
+  font-size: var(--text-title);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  font-weight: 700;
+  font-variation-settings: "opsz" 96;
+}
+
+.sub {
+  font-size: var(--text-sub);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+.note {
+  font-size: var(--text-note);
+  line-height: 1.5;
+}
+
+/* ---------- Controls ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  padding: 1rem 1.5rem;
+  font-weight: 600;
+  line-height: 1;
+  background: var(--color-accent);
+  color: #fff;
+  transition: background-color 200ms var(--ease-out), transform 200ms var(--ease-out);
+}
+.btn:hover {
+  background: var(--color-accent-ink);
+}
+.btn:active {
+  transform: translateY(1px) scale(0.98);
+}
+.btn .arrow {
+  transition: transform 250ms var(--ease-out);
+}
+.btn:hover .arrow {
+  transform: translateX(4px);
+}
+
+.link {
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.25em;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+  transition: text-decoration-color 200ms, color 200ms;
+}
+.link:hover {
+  text-decoration-color: var(--color-accent);
+}
+
+.chip {
+  padding: 0.55rem 1rem;
+  font-weight: 600;
+  font-size: var(--text-note);
+  background: var(--color-ground-2);
+  color: var(--color-ink);
+  transition: background-color 180ms, color 180ms, transform 180ms var(--ease-out);
+}
+.chip:hover {
+  background: #d3d8d7;
+}
+.chip:active {
+  transform: scale(0.97);
+}
+.chip[aria-pressed="true"] {
+  background: var(--color-ink);
+  color: var(--color-ground);
+}
+
+/* ---------- Reveal ---------- */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 700ms var(--ease-out) var(--delay, 0ms),
+    transform 900ms var(--ease-out) var(--delay, 0ms);
+}
+.js .reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Bars that grow when their chart enters. */
+.js .reveal .grow {
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 1100ms var(--ease-out);
+  transition-delay: calc(var(--delay, 0ms) + var(--i, 0) * 45ms + 200ms);
+}
+.js .reveal.in .grow {
+  transform: scaleX(1);
+}
+
+/* Unit charts: each unit lands one after another. */
+.js .reveal .pop {
+  opacity: 0;
+  transform: scale(0.4);
+  transition:
+    opacity 400ms var(--ease-out),
+    transform 500ms var(--ease-out);
+  transition-delay: calc(var(--delay, 0ms) + var(--i, 0) * 28ms + 250ms);
+}
+.js .reveal.in .pop {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js .reveal,
+  .js .reveal .grow,
+  .js .reveal .pop {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .btn, .chip, .btn .arrow { transition: none; }
 }
