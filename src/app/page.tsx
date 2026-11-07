@@ -1,56 +1,98 @@
-"use client";
-
 import Image from "next/image";
-import { motion } from "framer-motion";
-import About from "../components/About";
-import Skills from "../components/Skills";
+import LiveGitHub from "../components/LiveGitHub";
+import Impact from "../components/Impact";
+import QueryConsole from "../components/QueryConsole";
 import Projects from "../components/Projects";
+import Experience from "../components/Experience";
+import Credentials from "../components/Credentials";
 import Contact from "../components/Contact";
+import { links } from "../data/content";
+
+function Nav() {
+  return (
+    <header className="frame relative z-10 flex items-center justify-between gap-6 py-5">
+      <a href="#top" className="text-lg font-bold tracking-tight">
+        Franck E. Peñaloza
+      </a>
+      <nav aria-label="Sections" className="flex items-center gap-6 md:gap-8">
+        <a href="#work" className="hidden font-medium hover:text-accent md:inline">Work</a>
+        <a href="#experience" className="hidden font-medium hover:text-accent md:inline">Experience</a>
+        <a href="#contact" className="font-medium hover:text-accent">Contact</a>
+        <a href={links.cv} download className="btn !px-4 !py-3 text-[0.9375rem]">
+          CV <span aria-hidden>↓</span>
+        </a>
+      </nav>
+    </header>
+  );
+}
+
+function Hero() {
+  return (
+    <section
+      id="top"
+      className="frame grid grid-cols-1 items-center gap-x-12 gap-y-14 pb-[clamp(64px,8vw,120px)] pt-8 md:pt-14 lg:min-h-[calc(100svh-5rem)] lg:grid-cols-12"
+    >
+      <div className="flex flex-col lg:col-span-7" data-stagger>
+        <h1 className="display reveal text-[clamp(3.6rem,11vw,10.5rem)]">
+          Franck E.
+          <br />
+          Peñaloza
+        </h1>
+
+        {/* The portrait shares edges with the text block: its top meets the intro's first line,
+            its bottom meets the buttons' baseline. Width ≈ a quarter of the column, 4:5 portrait. */}
+        <div className="reveal mt-10 grid grid-cols-1 gap-x-7 gap-y-7 sm:grid-cols-[auto_1fr] lg:mt-12">
+          <div className="relative aspect-[4/5] w-[min(52vw,200px)] overflow-hidden bg-ground-2 sm:h-[220px] sm:w-[176px] lg:h-[250px] lg:w-[200px]">
+            <Image
+              src="/picture.png"
+              alt="Portrait of Franck Echeverría Peñaloza"
+              fill
+              priority
+              sizes="200px"
+              className="object-cover object-[50%_22%]"
+            />
+          </div>
+          <div className="flex max-w-[34rem] flex-col justify-between gap-8">
+            <p className="text-[1.25rem] leading-[1.4] md:text-[1.5rem] md:leading-[1.35]">
+              Data engineer and BI analyst. I turn scattered data into platforms the business
+              trusts to decide.
+            </p>
+            <div className="flex flex-wrap items-center gap-x-7 gap-y-4">
+              <a href="#work" className="btn">
+                See the work <span className="arrow" aria-hidden>→</span>
+              </a>
+              <a href={links.cv} download className="link">
+                Download CV (PDF)
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="reveal lg:col-span-5">
+        <QueryConsole />
+        <p className="note mt-3 text-ink-soft">
+          Query me: pick a file and the console runs it. Now at OMBIA · Systems Engineer, with
+          merit · <a href="#research" className="underline underline-offset-2 hover:text-accent">published in Elsevier</a>
+        </p>
+      </div>
+    </section>
+  );
+}
 
 export default function Home() {
   return (
-    <main className="max-w-5xl mx-auto px-4 py-20 text-center">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-      >
-        <Image
-          src="/picture.png"
-          alt="Franck Echeverría Peñaloza"
-          width={120}
-          height={120}
-          className="mx-auto rounded-full border-4 border-sky-500"
-        />
-        <h1 className="text-4xl font-bold mt-4">Franck Echeverría Peñaloza</h1>
-        <p className="text-gray-600 dark:text-gray-300 mt-2 max-w-xl mx-auto">
-          Data Analyst | BI Analyst | Data Engineer
-        </p>
-        <p className="text-gray-600 dark:text-gray-300 mt-4 max-w-xl mx-auto">
-          I transform data into business value through analytics, automation, and storytelling.
-        </p>
-        <div className="mt-6 flex justify-center gap-4">
-          <a
-            href="#projects"
-            className="bg-sky-500 text-white px-5 py-2 rounded-full hover:bg-sky-600 transition"
-          >
-            View Projects
-          </a>
-          <a
-            href="\CurriculumFranckEP.pdf"
-            className="border border-sky-500 text-sky-500 px-5 py-2 rounded-full hover:bg-sky-50 dark:hover:bg-slate-800 transition"
-            download
-          >
-            Download CV
-          </a>
-        </div>
-      </motion.div>
-
-      {/* About Section */}
-      <About />
-      <Skills />
-      <Projects />
+    <>
+      <Nav />
+      <main>
+        <Hero />
+        <Impact />
+        <LiveGitHub />
+        <Projects />
+        <Experience />
+        <Credentials />
+      </main>
       <Contact />
-    </main>
+    </>
   );
 }
